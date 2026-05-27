@@ -29,7 +29,8 @@ class FakeScenePublisher(Node):
         msg.header.frame_id = "panda_link0"
 
         msg.scene_id = "test_scene"
-        msg.planner_frame = "panda_link0"
+        # msg.planner_frame = "panda_link0"
+        msg.planner_frame = "base_link"
 
         msg.camera = CameraModel()
         msg.camera.width = 640
@@ -55,16 +56,17 @@ class FakeScenePublisher(Node):
 
         bbox = BoundingBox3D()
         bbox.valid = True
-        bbox.frame_id = "panda_link0"
+        # bbox.frame_id = "panda_link0"
+        bbox.frame_id = "base_link"
 
         # Static obstacle near your waypoint corridor
-        bbox.center.x = 0.55
+        bbox.center.x = -0.45
         bbox.center.y = 0.02
-        bbox.center.z = 0.36
+        bbox.center.z = 0.25
 
-        bbox.size.x = 0.1
-        bbox.size.y = 0.1
-        bbox.size.z = 0.1
+        bbox.size.x = 0.01
+        bbox.size.y = 0.01
+        bbox.size.z = 0.01
 
         bbox.min_corner.x = bbox.center.x - bbox.size.x / 2.0
         bbox.min_corner.y = bbox.center.y - bbox.size.y / 2.0

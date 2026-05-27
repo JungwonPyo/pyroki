@@ -46,6 +46,10 @@ source .venv/bin/activate
 
 # Install 
 uv pip install -e .
+
+# For UR5e,
+uv pip install xacrodoc
+
 ```
 
 ## Status

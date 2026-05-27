@@ -4,6 +4,7 @@ from dataclasses import dataclass
 from typing import List, Optional, Tuple
 
 import numpy as np
+from yourdfpy import urdf
 import pyroki as pk
 import rclpy
 import viser
@@ -36,7 +37,7 @@ class PyrokiPathFollower(Node):
         self.declare_parameter("target_class_name", "person")
         self.declare_parameter("min_score", 0.5)
         self.declare_parameter("obstacle_timeout_sec", 0.5)
-        self.declare_parameter("bbox_inflation_m", 0.02)
+        self.declare_parameter("bbox_inflation_m", 0.001)
         self.declare_parameter("waypoint_reached_pos_tol", 0.05)
         self.declare_parameter("control_dt", 0.1)
         self.declare_parameter("traj_len", 8)
@@ -57,8 +58,10 @@ class PyrokiPathFollower(Node):
         self.use_box_collision = bool(self.get_parameter("use_box_collision").value)
         self.keep_obstacle_slot = bool(self.get_parameter("keep_obstacle_slot").value)
 
-        urdf = load_robot_description("panda_description")
-        self.target_link_name = "panda_hand"
+        # urdf = load_robot_description("panda_description")
+        # self.target_link_name = "panda_hand"
+        urdf = load_robot_description("ur5e_description")
+        self.target_link_name = "tool0"  
 
         self.robot = pk.Robot.from_urdf(urdf)
         self.robot_coll = RobotCollision.from_urdf(urdf)
@@ -72,11 +75,17 @@ class PyrokiPathFollower(Node):
         self.current_q = np.array(q0)
         self.sol_traj = np.array(q0[None].repeat(self.traj_len, axis=0))
 
-        self.global_waypoints: List[Tuple[np.ndarray, np.ndarray]] = [
-            (np.array([0.40, -0.20, 0.45]), np.array([0.0, 0.0, 1.0, 0.0])),
-            (np.array([0.45, -0.05, 0.40]), np.array([0.0, 0.0, 1.0, 0.0])),
-            (np.array([0.50,  0.10, 0.35]), np.array([0.0, 0.0, 1.0, 0.0])),
-            (np.array([0.55,  0.20, 0.30]), np.array([0.0, 0.0, 1.0, 0.0])),
+        # self.global_waypoints: List[Tuple[np.ndarray, np.ndarray]] = [
+        #     (np.array([0.40, -0.20, 0.45]), np.array([0.0, 0.0, 1.0, 0.0])),
+        #     (np.array([0.45, -0.05, 0.40]), np.array([0.0, 0.0, 1.0, 0.0])),
+        #     (np.array([0.50,  0.10, 0.35]), np.array([0.0, 0.0, 1.0, 0.0])),
+        #     (np.array([0.55,  0.20, 0.30]), np.array([0.0, 0.0, 1.0, 0.0])),
+        # ]
+        self.global_waypoints = [
+            (np.array([-0.35, -0.20, 0.30]), np.array([0.0, 0.0, 1.0, 0.0])),
+            (np.array([-0.40, -0.05, 0.30]), np.array([0.0, 0.0, 1.0, 0.0])),
+            (np.array([-0.45,  0.10, 0.30]), np.array([0.0, 0.0, 1.0, 0.0])),
+            (np.array([-0.40,  0.20, 0.35]), np.array([0.0, 0.0, 1.0, 0.0])),
         ]
         self.current_wp_idx = 0
 
