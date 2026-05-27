@@ -27,6 +27,25 @@ You can install `pyroki` with `pip`, on Python 3.10+:
 git clone https://github.com/chungmin99/pyroki.git
 cd pyroki
 pip install -e .
+
+# Case of uv
+set -e
+
+# Install uv if not found
+if ! command -v uv &> /dev/null; then
+    echo "Installing uv..."
+    curl -LsSf https://astral.sh/uv/install.sh | sh
+    source $HOME/.cargo/env
+fi
+
+# Create a fresh virtual environment
+uv venv --python 3.10
+
+# Use the environment
+source .venv/bin/activate
+
+# Install 
+uv pip install -e .
 ```
 
 ## Status
