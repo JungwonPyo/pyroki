@@ -1,0 +1,33 @@
+rtde:
+  robot_ip: "192.168.0.10"
+  use_mock: true
+
+  control:
+    command_mode: servoJ
+    servo_dt_sec: 0.008
+    lookahead_time_sec: 0.10
+    gain: 300
+    speed: 0.50
+    accel: 0.50
+
+  receive:
+    poll_dt_sec: 0.008
+    require_robot_ready: true
+    require_normal_safety: true
+    allowed_safety_status: [1]
+
+  watchdogs:
+    planner_timeout_sec: 0.20
+    scene_timeout_sec: 0.50
+    rtde_state_timeout_sec: 0.10
+    stop_on_watchdog_trip: true
+
+  stop_behavior:
+    use_servo_stop: true
+    use_speed_stop: true
+    hold_position_after_stop: true
+
+  goal_check:
+    joint_tol_rad: 0.03
+    tcp_pos_tol_m: 0.03
+    tcp_rot_tol_rad: 0.20

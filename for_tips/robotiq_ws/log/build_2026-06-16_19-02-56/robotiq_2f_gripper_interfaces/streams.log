@@ -1,0 +1,42 @@
+[0.015s] Invoking command in '/home/dxr-labtop/pyroki/for_tips/robotiq_ws/build/robotiq_2f_gripper_interfaces': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /home/dxr-labtop/.local/bin/cmake /home/dxr-labtop/pyroki/for_tips/robotiq_ws/src/robotiq_2f_gripper_ros2/robotiq_2f_gripper_interfaces -DCMAKE_INSTALL_PREFIX=/home/dxr-labtop/pyroki/for_tips/robotiq_ws/install/robotiq_2f_gripper_interfaces
+[0.074s] [0mCMake Deprecation Warning at CMakeLists.txt:3 (cmake_minimum_required):
+[0.075s]   Compatibility with CMake < 3.10 will be removed from a future version of
+[0.075s]   CMake.
+[0.075s] 
+[0.075s]   Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+[0.075s]   to tell CMake that the project requires at least <min> but has been updated
+[0.075s]   to work with policies introduced by <max> or earlier.
+[0.075s] 
+[0.075s] [0m
+[0.081s] -- Found ament_cmake: 1.3.14 (/opt/ros/humble/share/ament_cmake/cmake)
+[0.238s] -- Found hardware_interface: 2.54.0 (/opt/ros/humble/share/hardware_interface/cmake)
+[0.262s] -- Found rosidl_generator_c: 3.1.8 (/opt/ros/humble/share/rosidl_generator_c/cmake)
+[0.264s] -- Found rosidl_adapter: 3.1.8 (/opt/ros/humble/share/rosidl_adapter/cmake)
+[0.269s] -- Found rosidl_generator_cpp: 3.1.8 (/opt/ros/humble/share/rosidl_generator_cpp/cmake)
+[0.278s] -- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c
+[0.289s] -- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp
+[0.462s] -- Found rmw_implementation_cmake: 6.1.2 (/opt/ros/humble/share/rmw_implementation_cmake/cmake)
+[0.463s] -- Found rmw_fastrtps_cpp: 6.2.10 (/opt/ros/humble/share/rmw_fastrtps_cpp/cmake)
+[0.481s] -- Found TinyXML2 via Config file: TinyXML2_DIR-NOTFOUND
+[0.489s] -- Found TinyXML2 via Config file: TinyXML2_DIR-NOTFOUND
+[0.505s] -- Found TinyXML2 via Config file: TinyXML2_DIR-NOTFOUND
+[0.515s] -- Found TinyXML2 via Config file: TinyXML2_DIR-NOTFOUND
+[0.525s] -- Using RMW implementation 'rmw_fastrtps_cpp' as default
+[0.575s] [31mCMake Error at CMakeLists.txt:18 (find_package):
+[0.576s]   By not providing "Findserial.cmake" in CMAKE_MODULE_PATH this project has
+[0.576s]   asked CMake to find a package configuration file provided by "serial", but
+[0.576s]   CMake did not find one.
+[0.576s] 
+[0.576s]   Could not find a package configuration file provided by "serial" with any
+[0.576s]   of the following names:
+[0.576s] 
+[0.576s]     serialConfig.cmake
+[0.576s]     serial-config.cmake
+[0.576s] 
+[0.576s]   Add the installation prefix of "serial" to CMAKE_PREFIX_PATH or set
+[0.576s]   "serial_DIR" to a directory containing one of the above files.  If "serial"
+[0.576s]   provides a separate development package or SDK, be sure it has been
+[0.576s]   installed.
+[0.576s] 
+[0.576s] [0m
+[0.576s] -- Configuring incomplete, errors occurred!

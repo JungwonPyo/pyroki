@@ -1,0 +1,6 @@
+transform:
+  parent_frame: base_link
+  child_frame: camera_color_optical_frame
+
+  translation: [0.115, 0.62, 0.965]
+  quaternion_xyzw: [0.0, -1.0, 0.0, 0.0]

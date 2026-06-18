@@ -1,0 +1,44 @@
+[0.010s] Invoking command in '/home/dxr-labtop/pyroki/for_tips/robotiq_ws/build/robotiq_2f_gripper_description': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /home/dxr-labtop/.local/bin/cmake --build /home/dxr-labtop/pyroki/for_tips/robotiq_ws/build/robotiq_2f_gripper_description -- -j20 -l20
+[0.084s] Invoked command in '/home/dxr-labtop/pyroki/for_tips/robotiq_ws/build/robotiq_2f_gripper_description' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /home/dxr-labtop/.local/bin/cmake --build /home/dxr-labtop/pyroki/for_tips/robotiq_ws/build/robotiq_2f_gripper_description -- -j20 -l20
+[0.142s] Invoking command in '/home/dxr-labtop/pyroki/for_tips/robotiq_ws/build/robotiq_2f_gripper_description': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /home/dxr-labtop/.local/bin/cmake --install /home/dxr-labtop/pyroki/for_tips/robotiq_ws/build/robotiq_2f_gripper_description
+[0.198s] -- Install configuration: ""
+[0.198s] -- Up-to-date: /home/dxr-labtop/pyroki/for_tips/robotiq_ws/install/robotiq_2f_gripper_description/share/robotiq_2f_gripper_description/launch
+[0.198s] -- Up-to-date: /home/dxr-labtop/pyroki/for_tips/robotiq_ws/install/robotiq_2f_gripper_description/share/robotiq_2f_gripper_description/launch/robotiq_2f_gripper.rviz
+[0.199s] -- Up-to-date: /home/dxr-labtop/pyroki/for_tips/robotiq_ws/install/robotiq_2f_gripper_description/share/robotiq_2f_gripper_description/launch/visualize.launch
+[0.199s] -- Up-to-date: /home/dxr-labtop/pyroki/for_tips/robotiq_ws/install/robotiq_2f_gripper_description/share/robotiq_2f_gripper_description/urdf
+[0.199s] -- Up-to-date: /home/dxr-labtop/pyroki/for_tips/robotiq_ws/install/robotiq_2f_gripper_description/share/robotiq_2f_gripper_description/urdf/robotiq_2f_140_macro.xacro
+[0.199s] -- Up-to-date: /home/dxr-labtop/pyroki/for_tips/robotiq_ws/install/robotiq_2f_gripper_description/share/robotiq_2f_gripper_description/urdf/robotiq_arg2f_transmission.xacro
+[0.199s] -- Up-to-date: /home/dxr-labtop/pyroki/for_tips/robotiq_ws/install/robotiq_2f_gripper_description/share/robotiq_2f_gripper_description/urdf/robotiq_2f_140.xacro
+[0.199s] -- Up-to-date: /home/dxr-labtop/pyroki/for_tips/robotiq_ws/install/robotiq_2f_gripper_description/share/robotiq_2f_gripper_description/urdf/robotiq_arg2f.xacro
+[0.199s] -- Up-to-date: /home/dxr-labtop/pyroki/for_tips/robotiq_ws/install/robotiq_2f_gripper_description/share/robotiq_2f_gripper_description/urdf/example_use_robotiq_2f_140.urdf.xacro
+[0.199s] -- Up-to-date: /home/dxr-labtop/pyroki/for_tips/robotiq_ws/install/robotiq_2f_gripper_description/share/robotiq_2f_gripper_description/meshes
+[0.199s] -- Up-to-date: /home/dxr-labtop/pyroki/for_tips/robotiq_ws/install/robotiq_2f_gripper_description/share/robotiq_2f_gripper_description/meshes/collision
+[0.199s] -- Up-to-date: /home/dxr-labtop/pyroki/for_tips/robotiq_ws/install/robotiq_2f_gripper_description/share/robotiq_2f_gripper_description/meshes/collision/robotiq_arg2f_140_inner_knuckle.stl
+[0.199s] -- Up-to-date: /home/dxr-labtop/pyroki/for_tips/robotiq_ws/install/robotiq_2f_gripper_description/share/robotiq_2f_gripper_description/meshes/collision/robotiq_arg2f_140_outer_knuckle.stl
+[0.199s] -- Up-to-date: /home/dxr-labtop/pyroki/for_tips/robotiq_ws/install/robotiq_2f_gripper_description/share/robotiq_2f_gripper_description/meshes/collision/robotiq_arg2f_base_link.stl
+[0.199s] -- Up-to-date: /home/dxr-labtop/pyroki/for_tips/robotiq_ws/install/robotiq_2f_gripper_description/share/robotiq_2f_gripper_description/meshes/collision/robotiq_arg2f_140_inner_finger.stl
+[0.199s] -- Up-to-date: /home/dxr-labtop/pyroki/for_tips/robotiq_ws/install/robotiq_2f_gripper_description/share/robotiq_2f_gripper_description/meshes/collision/robotiq_arg2f_140_outer_finger.stl
+[0.199s] -- Up-to-date: /home/dxr-labtop/pyroki/for_tips/robotiq_ws/install/robotiq_2f_gripper_description/share/robotiq_2f_gripper_description/meshes/collision/robotiq_arg2f_coupling.stl
+[0.199s] -- Up-to-date: /home/dxr-labtop/pyroki/for_tips/robotiq_ws/install/robotiq_2f_gripper_description/share/robotiq_2f_gripper_description/meshes/visual
+[0.199s] -- Up-to-date: /home/dxr-labtop/pyroki/for_tips/robotiq_ws/install/robotiq_2f_gripper_description/share/robotiq_2f_gripper_description/meshes/visual/robotiq_arg2f_140_inner_knuckle.stl
+[0.199s] -- Up-to-date: /home/dxr-labtop/pyroki/for_tips/robotiq_ws/install/robotiq_2f_gripper_description/share/robotiq_2f_gripper_description/meshes/visual/robotiq_arg2f_140_outer_knuckle.stl
+[0.199s] -- Up-to-date: /home/dxr-labtop/pyroki/for_tips/robotiq_ws/install/robotiq_2f_gripper_description/share/robotiq_2f_gripper_description/meshes/visual/robotiq_arg2f_base_link.stl
+[0.199s] -- Up-to-date: /home/dxr-labtop/pyroki/for_tips/robotiq_ws/install/robotiq_2f_gripper_description/share/robotiq_2f_gripper_description/meshes/visual/robotiq_arg2f_140_inner_finger.stl
+[0.199s] -- Up-to-date: /home/dxr-labtop/pyroki/for_tips/robotiq_ws/install/robotiq_2f_gripper_description/share/robotiq_2f_gripper_description/meshes/visual/robotiq_arg2f_140_outer_finger.stl
+[0.199s] -- Up-to-date: /home/dxr-labtop/pyroki/for_tips/robotiq_ws/install/robotiq_2f_gripper_description/share/robotiq_2f_gripper_description/meshes/visual/robotiq_arg2f_coupling.stl
+[0.199s] -- Up-to-date: /home/dxr-labtop/pyroki/for_tips/robotiq_ws/install/robotiq_2f_gripper_description/share/ament_index/resource_index/package_run_dependencies/robotiq_2f_gripper_description
+[0.199s] -- Up-to-date: /home/dxr-labtop/pyroki/for_tips/robotiq_ws/install/robotiq_2f_gripper_description/share/ament_index/resource_index/parent_prefix_path/robotiq_2f_gripper_description
+[0.199s] -- Up-to-date: /home/dxr-labtop/pyroki/for_tips/robotiq_ws/install/robotiq_2f_gripper_description/share/robotiq_2f_gripper_description/environment/ament_prefix_path.sh
+[0.199s] -- Up-to-date: /home/dxr-labtop/pyroki/for_tips/robotiq_ws/install/robotiq_2f_gripper_description/share/robotiq_2f_gripper_description/environment/ament_prefix_path.dsv
+[0.199s] -- Up-to-date: /home/dxr-labtop/pyroki/for_tips/robotiq_ws/install/robotiq_2f_gripper_description/share/robotiq_2f_gripper_description/environment/path.sh
+[0.199s] -- Up-to-date: /home/dxr-labtop/pyroki/for_tips/robotiq_ws/install/robotiq_2f_gripper_description/share/robotiq_2f_gripper_description/environment/path.dsv
+[0.200s] -- Up-to-date: /home/dxr-labtop/pyroki/for_tips/robotiq_ws/install/robotiq_2f_gripper_description/share/robotiq_2f_gripper_description/local_setup.bash
+[0.200s] -- Up-to-date: /home/dxr-labtop/pyroki/for_tips/robotiq_ws/install/robotiq_2f_gripper_description/share/robotiq_2f_gripper_description/local_setup.sh
+[0.200s] -- Up-to-date: /home/dxr-labtop/pyroki/for_tips/robotiq_ws/install/robotiq_2f_gripper_description/share/robotiq_2f_gripper_description/local_setup.zsh
+[0.200s] -- Up-to-date: /home/dxr-labtop/pyroki/for_tips/robotiq_ws/install/robotiq_2f_gripper_description/share/robotiq_2f_gripper_description/local_setup.dsv
+[0.200s] -- Installing: /home/dxr-labtop/pyroki/for_tips/robotiq_ws/install/robotiq_2f_gripper_description/share/robotiq_2f_gripper_description/package.dsv
+[0.200s] -- Up-to-date: /home/dxr-labtop/pyroki/for_tips/robotiq_ws/install/robotiq_2f_gripper_description/share/ament_index/resource_index/packages/robotiq_2f_gripper_description
+[0.200s] -- Up-to-date: /home/dxr-labtop/pyroki/for_tips/robotiq_ws/install/robotiq_2f_gripper_description/share/robotiq_2f_gripper_description/cmake/robotiq_2f_gripper_descriptionConfig.cmake
+[0.200s] -- Up-to-date: /home/dxr-labtop/pyroki/for_tips/robotiq_ws/install/robotiq_2f_gripper_description/share/robotiq_2f_gripper_description/cmake/robotiq_2f_gripper_descriptionConfig-version.cmake
+[0.200s] -- Up-to-date: /home/dxr-labtop/pyroki/for_tips/robotiq_ws/install/robotiq_2f_gripper_description/share/robotiq_2f_gripper_description/package.xml
+[0.201s] Invoked command in '/home/dxr-labtop/pyroki/for_tips/robotiq_ws/build/robotiq_2f_gripper_description' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /home/dxr-labtop/.local/bin/cmake --install /home/dxr-labtop/pyroki/for_tips/robotiq_ws/build/robotiq_2f_gripper_description

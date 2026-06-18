@@ -1,0 +1,16 @@
+extrinsics:
+  planner_frame: base_link
+
+  camera_to_base:
+    parent_frame: base_link
+    child_frame: camera_color_optical_frame
+    translation_xyz: [0.420, -0.180, 0.950]
+    quaternion_xyzw: [0.0000, 0.0000, 0.7071, 0.7071]
+
+  transform_policy:
+    use_message_bbox_frame_id: true
+    assume_identity_if_same_frame: true
+    reject_unknown_frames: true
+    transform_bbox_corners: true
+    rebuild_axis_aligned_bbox_in_planner_frame: true
+    preserve_original_frame_metadata: true

@@ -3,8 +3,9 @@ import time
 from dataclasses import dataclass
 from typing import List, Optional, Tuple
 
+import os
 import numpy as np
-from yourdfpy import urdf
+from yourdfpy import URDF, urdf
 import pyroki as pk
 import rclpy
 import viser
@@ -58,12 +59,18 @@ class PyrokiPathFollower(Node):
         self.use_box_collision = bool(self.get_parameter("use_box_collision").value)
         self.keep_obstacle_slot = bool(self.get_parameter("keep_obstacle_slot").value)
 
-        # urdf = load_robot_description("panda_description")
-        # self.target_link_name = "panda_hand"
-        urdf = load_robot_description("ur5e_description")
-        self.target_link_name = "tool0"  
+        # urdf = load_robot_description("ur5e_description")
+        # self.robot = pk.Robot.from_urdf(urdf)
+        # Use absolute path to avoid working-directory issues
+        urdf_path = os.path.join(os.path.dirname(__file__), "ur5e_with_robotiq.urdf")
 
+        # Load with urdfpy
+        urdf = URDF.load(urdf_path)
+
+        # Pass the URDF object to PyRoki
         self.robot = pk.Robot.from_urdf(urdf)
+        
+        self.target_link_name = "tool0"  
         self.robot_coll = RobotCollision.from_urdf(urdf)
 
         self.plane_coll = HalfSpace.from_point_and_normal(

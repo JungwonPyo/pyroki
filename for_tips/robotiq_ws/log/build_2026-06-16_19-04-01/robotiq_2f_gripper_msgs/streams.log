@@ -1,0 +1,53 @@
+[0.009s] Invoking command in '/home/dxr-labtop/pyroki/for_tips/robotiq_ws/build/robotiq_2f_gripper_msgs': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /home/dxr-labtop/.local/bin/cmake /home/dxr-labtop/pyroki/for_tips/robotiq_ws/src/robotiq_2f_gripper_ros2/robotiq_2f_gripper_msgs -DCMAKE_INSTALL_PREFIX=/home/dxr-labtop/pyroki/for_tips/robotiq_ws/install/robotiq_2f_gripper_msgs
+[0.066s] [0mCMake Deprecation Warning at CMakeLists.txt:1 (cmake_minimum_required):
+[0.066s]   Compatibility with CMake < 3.10 will be removed from a future version of
+[0.067s]   CMake.
+[0.067s] 
+[0.067s]   Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+[0.067s]   to tell CMake that the project requires at least <min> but has been updated
+[0.067s]   to work with policies introduced by <max> or earlier.
+[0.067s] 
+[0.067s] [0m
+[0.072s] -- Found ament_cmake: 1.3.14 (/opt/ros/humble/share/ament_cmake/cmake)
+[0.218s] -- Found rosidl_default_generators: 1.2.1 (/opt/ros/humble/share/rosidl_default_generators/cmake)
+[0.219s] -- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c
+[0.221s] -- Found rosidl_adapter: 3.1.8 (/opt/ros/humble/share/rosidl_adapter/cmake)
+[0.251s] -- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp
+[0.278s] -- Found std_msgs: 4.9.1 (/opt/ros/humble/share/std_msgs/cmake)
+[0.301s] -- Found unique_identifier_msgs: 2.2.1 (/opt/ros/humble/share/unique_identifier_msgs/cmake)
+[0.435s] [31mCMake Error at /opt/ros/humble/share/rosidl_adapter/cmake/rosidl_adapt_interfaces.cmake:59 (message):
+[0.436s]   execute_process(/home/dxr-labtop/pyroki/.venv/bin/python3 -m rosidl_adapter
+[0.436s]   --package-name robotiq_2f_gripper_msgs --arguments-file
+[0.436s]   /home/dxr-labtop/pyroki/for_tips/robotiq_ws/build/robotiq_2f_gripper_msgs/rosidl_adapter__arguments__robotiq_2f_gripper_msgs.json
+[0.436s]   --output-dir
+[0.436s]   /home/dxr-labtop/pyroki/for_tips/robotiq_ws/build/robotiq_2f_gripper_msgs/rosidl_adapter/robotiq_2f_gripper_msgs
+[0.436s]   --output-file
+[0.436s]   /home/dxr-labtop/pyroki/for_tips/robotiq_ws/build/robotiq_2f_gripper_msgs/rosidl_adapter/robotiq_2f_gripper_msgs.idls)
+[0.436s]   returned error code 1:
+[0.436s] 
+[0.436s]   Traceback (most recent call last):
+[0.436s] 
+[0.436s]     File "/usr/lib/python3.10/runpy.py", line 196, in _run_module_as_main
+[0.436s]       return _run_code(code, main_globals, None,
+[0.436s]     File "/usr/lib/python3.10/runpy.py", line 86, in _run_code
+[0.436s]       exec(code, run_globals)
+[0.437s]     File "/opt/ros/humble/local/lib/python3.10/dist-packages/rosidl_adapter/__main__.py", line 19, in <module>
+[0.437s]       sys.exit(main())
+[0.437s]     File "/opt/ros/humble/local/lib/python3.10/dist-packages/rosidl_adapter/main.py", line 53, in main
+[0.437s]       abs_idl_file = convert_to_idl(
+[0.437s]     File "/opt/ros/humble/local/lib/python3.10/dist-packages/rosidl_adapter/__init__.py", line 28, in convert_to_idl
+[0.437s]       from rosidl_adapter.action import convert_action_to_idl
+[0.437s]     File "/opt/ros/humble/local/lib/python3.10/dist-packages/rosidl_adapter/action/__init__.py", line 16, in <module>
+[0.437s]       from rosidl_adapter.resource import expand_template
+[0.437s]     File "/opt/ros/humble/local/lib/python3.10/dist-packages/rosidl_adapter/resource/__init__.py", line 19, in <module>
+[0.437s]       import em
+[0.437s] 
+[0.437s]   ModuleNotFoundError: No module named 'em'
+[0.437s] 
+[0.437s] Call Stack (most recent call first):
+[0.438s]   /opt/ros/humble/share/rosidl_cmake/cmake/rosidl_generate_interfaces.cmake:130 (rosidl_adapt_interfaces)
+[0.438s]   CMakeLists.txt:14 (rosidl_generate_interfaces)
+[0.438s] 
+[0.438s] [0m
+[0.438s] -- Configuring incomplete, errors occurred!
+[0.440s] Invoked command in '/home/dxr-labtop/pyroki/for_tips/robotiq_ws/build/robotiq_2f_gripper_msgs' returned '1': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /home/dxr-labtop/.local/bin/cmake /home/dxr-labtop/pyroki/for_tips/robotiq_ws/src/robotiq_2f_gripper_ros2/robotiq_2f_gripper_msgs -DCMAKE_INSTALL_PREFIX=/home/dxr-labtop/pyroki/for_tips/robotiq_ws/install/robotiq_2f_gripper_msgs

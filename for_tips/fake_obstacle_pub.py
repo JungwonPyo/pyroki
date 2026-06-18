@@ -60,9 +60,9 @@ class FakeScenePublisher(Node):
         bbox.frame_id = "base_link"
 
         # Static obstacle near your waypoint corridor
-        bbox.center.x = -0.45
+        bbox.center.x = -0.40
         bbox.center.y = 0.02
-        bbox.center.z = 0.25
+        bbox.center.z = 0.15
 
         bbox.size.x = 0.01
         bbox.size.y = 0.01

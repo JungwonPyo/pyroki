@@ -1,0 +1,154 @@
+planner_frame: base_link
+target_link_name: tool0
+default_tool_wxyz: [0.0, 0.0, 1.0, 0.0]
+
+motion:
+  control_dt: 0.05
+  traj_len: 4
+  waypoint_reached_pos_tol: 0.02
+  bbox_inflation_m: 0.001
+  obstacle_timeout_sec: 0.8
+  use_box_collision: true
+  keep_obstacle_slot: true
+  enable_stall_advance: false
+  stall_cycles_to_advance: 20
+
+servo:
+  max_joint_step: 0.01
+  speed: 0.25
+  acceleration: 0.25
+  lookahead_time: 0.12
+  gain: 150
+
+gripper:
+  enabled: true
+  port: /tmp/ttyUR
+  baudrate: 115200
+  timeout: 5.0
+  slave_id: 9
+  speed: 255
+  force: 120
+  open_position: 0
+  close_position: 255
+
+perception:
+  scene_topic: /scene_graph/planner_context
+  min_score: 0.5
+  collision_class_names: ["hand"]
+
+anchors:
+  debug_pick_target:
+    pos: [0.3, 0.45, 0.05]
+    wxyz: [0.0, 0.0, 1.0, 0.0]
+
+  jig_above:
+    pos: [0.05, 0.45, 0.45]
+    wxyz: [0.0, 0.0, 1.0, 0.0]
+
+  jig_place:
+    pos: [0.05, 0.45, 0.25]
+    wxyz: [0.0, 0.0, 1.0, 0.0]
+
+  jig_pick:
+    pos: [0.05, 0.45, 0.25]
+    wxyz: [0.0, 0.0, 1.0, 0.0]
+
+  jig_lift:
+    pos: [0.05, 0.45, 0.45]
+    wxyz: [0.0, 0.0, 1.0, 0.0]
+
+  place_above:
+    pos: [-0.2, 0.45, 0.45]
+    wxyz: [0.0, 0.0, 1.0, 0.0]
+
+  place_drop:
+    pos: [-0.2, 0.45, 0.25]
+    wxyz: [0.0, 0.0, 1.0, 0.0]
+
+  home:
+    pos: [0.15, 0.45, 0.5]
+    wxyz: [0.0, 0.0, 1.0, 0.0]
+
+paths:
+  to_jig:
+    - {anchor: jig_above}
+    - {anchor: jig_place}
+
+  from_jig_up:
+    - {anchor: jig_lift}
+
+  pick_from_jig:
+    - {anchor: jig_pick}
+
+  to_place:
+    - {anchor: place_above}
+    - {anchor: place_drop}
+
+  back_home:
+    - {anchor: place_above}
+    - {anchor: home}
+
+scenario:
+  - name: reach_target
+    kind: move
+    target_source: config
+    target_anchor: debug_pick_target
+    waypoints:
+      - {relative_to: target, offset: [0.0, 0.0, 0.45]}
+      - {relative_to: target, offset: [0.0, 0.0, 0.25]}
+
+  - name: lift_from_target
+    kind: move
+    target_source: config
+    target_anchor: debug_pick_target
+    waypoints:
+      - {relative_to: target, offset: [0.0, 0.0, 0.45]}
+
+  - name: move_to_jig_above
+    kind: move
+    waypoints:
+      - {anchor: jig_above}
+
+  - name: wait_at_jig_above
+    kind: wait
+    dwell_sec: 0.5
+
+  - name: move_down_to_jig
+    kind: move
+    waypoints:
+      - {anchor: jig_place}
+
+  - name: place_to_jig
+    kind: gripper
+    action: open
+    dwell_sec: 0.8
+
+  - name: lift_after_jig_place
+    kind: move
+    use_path: from_jig_up
+
+  - name: down_to_picking_jig
+    kind: move
+    use_path: pick_from_jig
+
+  - name: grasp_from_jig
+    kind: gripper
+    action: close
+    dwell_sec: 1.0
+
+  - name: lift_from_jig
+    kind: move
+    use_path: from_jig_up
+
+  - name: move_to_place
+    kind: move
+    use_path: to_place
+
+  - name: place_target
+    kind: gripper
+    action: open
+    dwell_sec: 0.8
+
+  - name: back_home
+    kind: move
+    use_path: back_home

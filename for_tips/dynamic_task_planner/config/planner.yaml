@@ -1,0 +1,168 @@
+planner:
+  planner_frame: base_link
+  nominal_plan_dt: 0.1
+  traj_len: 8
+  waypoint_reached_pos_tol: 0.03
+  stall_cycles_to_advance: 8
+
+  scene:
+    topic: /scene_context
+    min_object_score: 0.50
+    min_relation_score: 0.50
+    obstacle_timeout_sec: 0.50
+    scene_stale_timeout_sec: 0.50
+    required_persistence_frames: 3
+    respect_msg_planner_frame: true
+
+  collision:
+    use_box_collision: true
+    fallback_to_sphere: true
+    bbox_inflation_m: 0.010
+    keep_obstacle_slot: true
+    include_ground_plane: true
+    attached_object_inflation_m: 0.005
+
+  behavior:
+    default_action: FOLLOW_NOMINAL
+    stop_on_planner_failure: true
+    stop_on_scene_timeout: true
+    delay_entry_reuses_nominal_hold_pose: true
+    allow_s3_replanning_only: true
+    goal_completion_requires_robot_reached_goal: true
+
+  situation_map:
+    NORMAL: FOLLOW_NOMINAL
+    S1: WAIT
+    S2: STOP
+    S3: AVOID
+    S4: WAIT
+    S5: DELAY_ENTRY
+
+  situation_priority:
+    - S2
+    - S4
+    - S1
+    - S5
+    - S3
+    - NORMAL
+
+  replanning:
+    enabled_step_phases:
+      - MOTION
+    disabled_step_phases:
+      - GRIPPER
+    max_obstacles: 12
+    class_whitelist_for_avoidance:
+      - hand
+      - screwdriver
+      - wrench
+      - cable bundle
+      - plastic tray
+      - safety goggles
+    class_blacklist_for_external_obstacles:
+      - gripper
+    treat_attached_objects_as_robot_geometry: true
+
+  object_policy:
+    static_support_classes:
+      - parts box
+      - holder
+      - inspection jig
+    dynamic_avoidable_classes:
+      - screwdriver
+      - wrench
+      - cable bundle
+      - plastic tray
+      - safety goggles
+    human_classes:
+      - hand
+    target_classes:
+      - workpiece
+    robot_classes:
+      - gripper
+
+  relation_policy:
+    gripping_attaches_object: true
+    attached_relation:
+      subject_class: gripper
+      predicate: gripping
+      object_class: workpiece
+      min_score: 0.50
+
+    touching_stop_rules:
+      - subject_class: hand
+        predicate: touching
+        object_class: workpiece
+        min_score: 0.50
+      - subject_class: hand
+        predicate: touching
+        object_class: gripper
+        min_score: 0.50
+      - subject_class: hand
+        predicate: touching
+        object_class: holder
+        min_score: 0.50
+      - subject_class: hand
+        predicate: touching
+        object_class: parts box
+        min_score: 0.50
+
+    place_occupied_rules:
+      - step_id: STEP2_TRANSFER_HOLDER
+        subject_class: workpiece
+        predicate: inside
+        object_class: holder
+        min_score: 0.50
+      - step_id: STEP2_PLACE_HOLDER
+        subject_class: workpiece
+        predicate: inside
+        object_class: holder
+        min_score: 0.50
+      - step_id: STEP4_TRANSFER_BOX2
+        subject_class: workpiece
+        predicate: inside
+        object_class: parts box
+        min_score: 0.50
+      - step_id: STEP4_PLACE_BOX2
+        subject_class: workpiece
+        predicate: inside
+        object_class: parts box
+        min_score: 0.50
+
+  nominal_targets:
+    STEP1_APPROACH_BOX_PICK:
+      position_xyz: [0.400, -0.200, 0.220]
+      quaternion_wxyz: [0.0, 0.0, 1.0, 0.0]
+    STEP1_GRASP:
+      position_xyz: [0.400, -0.200, 0.160]
+      quaternion_wxyz: [0.0, 0.0, 1.0, 0.0]
+    STEP1_LIFT:
+      position_xyz: [0.400, -0.200, 0.320]
+      quaternion_wxyz: [0.0, 0.0, 1.0, 0.0]
+    STEP2_TRANSFER_HOLDER:
+      position_xyz: [0.250, 0.150, 0.280]
+      quaternion_wxyz: [0.0, 0.0, 1.0, 0.0]
+    STEP2_PLACE_HOLDER:
+      position_xyz: [0.250, 0.150, 0.200]
+      quaternion_wxyz: [0.0, 0.0, 1.0, 0.0]
+    STEP2_RETREAT:
+      position_xyz: [0.250, 0.120, 0.340]
+      quaternion_wxyz: [0.0, 0.0, 1.0, 0.0]
+    STEP3_APPROACH_HOLDER_PICK:
+      position_xyz: [0.250, 0.150, 0.240]
+      quaternion_wxyz: [0.0, 0.0, 1.0, 0.0]
+    STEP3_GRASP:
+      position_xyz: [0.250, 0.150, 0.190]
+      quaternion_wxyz: [0.0, 0.0, 1.0, 0.0]
+    STEP3_LIFT:
+      position_xyz: [0.250, 0.150, 0.340]
+      quaternion_wxyz: [0.0, 0.0, 1.0, 0.0]
+    STEP4_TRANSFER_BOX2:
+      position_xyz: [0.520, 0.180, 0.280]
+      quaternion_wxyz: [0.0, 0.0, 1.0, 0.0]
+    STEP4_PLACE_BOX2:
+      position_xyz: [0.520, 0.180, 0.190]
+      quaternion_wxyz: [0.0, 0.0, 1.0, 0.0]
+    STEP4_RETREAT_FINISH:
+      position_xyz: [0.350, 0.000, 0.420]
+      quaternion_wxyz: [0.0, 0.0, 1.0, 0.0]

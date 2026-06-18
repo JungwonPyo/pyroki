@@ -1,0 +1,316 @@
+scenario:
+  name: ur5e_pick_place_holder_pick_place
+  planner_frame: base_link
+  robot:
+    model: ur5e
+    target_link: tool0
+
+  object_classes:
+    - parts box
+    - plastic tray
+    - workpiece
+    - screwdriver
+    - hand
+    - inspection jig
+    - wrench
+    - cable bundle
+    - safety goggles
+    - gripper
+    - holder
+
+  relation_classes:
+    - on
+    - inside
+    - beside
+    - above
+    - touching
+    - near
+    - gripping
+
+  situation_priority:
+    - S2
+    - S4
+    - S1
+    - S5
+    - S3
+    - NORMAL
+
+  steps:
+    - id: STEP1_APPROACH_BOX_PICK
+      phase: MOTION
+      nominal_name: step1_approach_box_pick
+      target_class: workpiece
+      support_class: parts box
+      destination_class: null
+      replanning_enabled: true
+      goal:
+        type: cartesian_pose
+        position_xyz: [0.400, -0.200, 0.220]
+        quaternion_wxyz: [0.0, 0.0, 1.0, 0.0]
+        pos_tol_m: 0.030
+        rot_tol_rad: 0.200
+      preconditions:
+        required_classes:
+          - workpiece
+          - parts box
+        forbidden_classes: []
+        expected_relations:
+          - subject_class: workpiece
+            predicate: inside
+            object_class: parts box
+            min_score: 0.50
+      allowed_situations: [NORMAL, S1, S2, S3, S4]
+      expected_after_step: []
+
+    - id: STEP1_GRASP
+      phase: GRIPPER
+      nominal_name: step1_grasp
+      target_class: workpiece
+      support_class: parts box
+      destination_class: null
+      replanning_enabled: false
+      goal:
+        type: named_action
+        action_name: close_gripper_on_workpiece
+      preconditions:
+        required_classes:
+          - parts box
+        forbidden_classes: []
+        expected_relations: []
+      allowed_situations: [NORMAL, S2]
+      expected_after_step:
+        - subject_class: gripper
+          predicate: gripping
+          object_class: workpiece
+          min_score: 0.50
+
+    - id: STEP1_LIFT
+      phase: MOTION
+      nominal_name: step1_lift
+      target_class: workpiece
+      support_class: null
+      destination_class: null
+      replanning_enabled: false
+      goal:
+        type: cartesian_pose
+        position_xyz: [0.400, -0.200, 0.320]
+        quaternion_wxyz: [0.0, 0.0, 1.0, 0.0]
+        pos_tol_m: 0.030
+        rot_tol_rad: 0.200
+      preconditions:
+        required_classes: []
+        forbidden_classes: []
+        expected_relations:
+          - subject_class: gripper
+            predicate: gripping
+            object_class: workpiece
+            min_score: 0.50
+      allowed_situations: [NORMAL, S2]
+      expected_after_step: []
+
+    - id: STEP2_TRANSFER_HOLDER
+      phase: MOTION
+      nominal_name: step2_transfer_holder
+      target_class: workpiece
+      support_class: null
+      destination_class: holder
+      replanning_enabled: true
+      goal:
+        type: cartesian_pose
+        position_xyz: [0.250, 0.150, 0.280]
+        quaternion_wxyz: [0.0, 0.0, 1.0, 0.0]
+        pos_tol_m: 0.030
+        rot_tol_rad: 0.200
+      preconditions:
+        required_classes:
+          - holder
+        forbidden_classes: []
+        expected_relations:
+          - subject_class: gripper
+            predicate: gripping
+            object_class: workpiece
+            min_score: 0.50
+      allowed_situations: [NORMAL, S2, S3, S5]
+      expected_after_step: []
+
+    - id: STEP2_PLACE_HOLDER
+      phase: GRIPPER
+      nominal_name: step2_place_holder
+      target_class: workpiece
+      support_class: null
+      destination_class: holder
+      replanning_enabled: false
+      goal:
+        type: named_action
+        action_name: open_gripper_into_holder
+      preconditions:
+        required_classes:
+          - holder
+        forbidden_classes: []
+        expected_relations: []
+      allowed_situations: [NORMAL, S2, S5]
+      expected_after_step:
+        - subject_class: workpiece
+          predicate: inside
+          object_class: holder
+          min_score: 0.50
+
+    - id: STEP2_RETREAT
+      phase: MOTION
+      nominal_name: step2_retreat
+      target_class: null
+      support_class: holder
+      destination_class: null
+      replanning_enabled: false
+      goal:
+        type: cartesian_pose
+        position_xyz: [0.250, 0.120, 0.340]
+        quaternion_wxyz: [0.0, 0.0, 1.0, 0.0]
+        pos_tol_m: 0.030
+        rot_tol_rad: 0.200
+      preconditions:
+        required_classes:
+          - holder
+        forbidden_classes: []
+        expected_relations: []
+      allowed_situations: [NORMAL, S2]
+      expected_after_step: []
+
+    - id: STEP3_APPROACH_HOLDER_PICK
+      phase: MOTION
+      nominal_name: step3_approach_holder_pick
+      target_class: workpiece
+      support_class: holder
+      destination_class: null
+      replanning_enabled: true
+      goal:
+        type: cartesian_pose
+        position_xyz: [0.250, 0.150, 0.240]
+        quaternion_wxyz: [0.0, 0.0, 1.0, 0.0]
+        pos_tol_m: 0.030
+        rot_tol_rad: 0.200
+      preconditions:
+        required_classes:
+          - workpiece
+          - holder
+        forbidden_classes: []
+        expected_relations:
+          - subject_class: workpiece
+            predicate: inside
+            object_class: holder
+            min_score: 0.50
+      allowed_situations: [NORMAL, S1, S2, S3, S5]
+      expected_after_step: []
+
+    - id: STEP3_GRASP
+      phase: GRIPPER
+      nominal_name: step3_grasp
+      target_class: workpiece
+      support_class: holder
+      destination_class: null
+      replanning_enabled: false
+      goal:
+        type: named_action
+        action_name: close_gripper_on_workpiece_in_holder
+      preconditions:
+        required_classes:
+          - holder
+        forbidden_classes: []
+        expected_relations: []
+      allowed_situations: [NORMAL, S2]
+      expected_after_step:
+        - subject_class: gripper
+          predicate: gripping
+          object_class: workpiece
+          min_score: 0.50
+
+    - id: STEP3_LIFT
+      phase: MOTION
+      nominal_name: step3_lift
+      target_class: workpiece
+      support_class: null
+      destination_class: null
+      replanning_enabled: false
+      goal:
+        type: cartesian_pose
+        position_xyz: [0.250, 0.150, 0.340]
+        quaternion_wxyz: [0.0, 0.0, 1.0, 0.0]
+        pos_tol_m: 0.030
+        rot_tol_rad: 0.200
+      preconditions:
+        required_classes: []
+        forbidden_classes: []
+        expected_relations:
+          - subject_class: gripper
+            predicate: gripping
+            object_class: workpiece
+            min_score: 0.50
+      allowed_situations: [NORMAL, S2]
+      expected_after_step: []
+
+    - id: STEP4_TRANSFER_BOX2
+      phase: MOTION
+      nominal_name: step4_transfer_box2
+      target_class: workpiece
+      support_class: null
+      destination_class: parts box
+      replanning_enabled: true
+      goal:
+        type: cartesian_pose
+        position_xyz: [0.520, 0.180, 0.280]
+        quaternion_wxyz: [0.0, 0.0, 1.0, 0.0]
+        pos_tol_m: 0.030
+        rot_tol_rad: 0.200
+      preconditions:
+        required_classes:
+          - parts box
+        forbidden_classes: []
+        expected_relations:
+          - subject_class: gripper
+            predicate: gripping
+            object_class: workpiece
+            min_score: 0.50
+      allowed_situations: [NORMAL, S2, S3, S5]
+      expected_after_step: []
+
+    - id: STEP4_PLACE_BOX2
+      phase: GRIPPER
+      nominal_name: step4_place_box2
+      target_class: workpiece
+      support_class: null
+      destination_class: parts box
+      replanning_enabled: false
+      goal:
+        type: named_action
+        action_name: open_gripper_into_box2
+      preconditions:
+        required_classes:
+          - parts box
+        forbidden_classes: []
+        expected_relations: []
+      allowed_situations: [NORMAL, S2, S5]
+      expected_after_step:
+        - subject_class: workpiece
+          predicate: inside
+          object_class: parts box
+          min_score: 0.50
+
+    - id: STEP4_RETREAT_FINISH
+      phase: MOTION
+      nominal_name: step4_retreat_finish
+      target_class: null
+      support_class: null
+      destination_class: null
+      replanning_enabled: false
+      goal:
+        type: cartesian_pose
+        position_xyz: [0.350, 0.000, 0.420]
+        quaternion_wxyz: [0.0, 0.0, 1.0, 0.0]
+        pos_tol_m: 0.040
+        rot_tol_rad: 0.250
+      preconditions:
+        required_classes: []
+        forbidden_classes: []
+        expected_relations: []
+      allowed_situations: [NORMAL, S2]
+      expected_after_step: []
