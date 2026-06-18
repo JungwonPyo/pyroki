@@ -16,3 +16,5 @@ htmlcov
 .vite
 build
 uv.lock
+
+for_tips/logs

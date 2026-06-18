@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 import os
 import time
+import traceback
 import threading
 from dataclasses import dataclass, field
 from typing import List, Optional, Tuple, Dict, Any
@@ -220,6 +221,114 @@ class PyrokiRtdeTaskPlanner(Node):
 
         self.build_static_task()
         self.get_logger().info(f"Subscribed to {self.scene_topic}")
+        
+        self.path_log = []
+        self.obstacle_log = []
+        self.log_start_time = time.time()
+        
+    def log_cycle_data(self, wp, sol_pos, active_obs):
+        t = time.time() - self.log_start_time
+        step = self.current_step()
+        step_name = step.name if step is not None else "none"
+
+        def vec3_or_nan(x):
+            try:
+                arr = np.asarray(x, dtype=float).reshape(-1)
+                if arr.size >= 3:
+                    return [float(arr[0]), float(arr[1]), float(arr[2])]
+            except Exception:
+                pass
+            return [float("nan"), float("nan"), float("nan")]
+
+        actual_xyz = vec3_or_nan(self.actual_tcp_pose[:3] if self.actual_tcp_pose is not None else None)
+        wp_xyz = vec3_or_nan(wp.pos if wp is not None else None)
+
+        row = {
+            "t": float(t),
+            "step_idx": int(self.current_step_idx),
+            "step_name": step_name,
+            "wp_idx": int(self.current_wp_idx),
+            "wp_x": wp_xyz[0],
+            "wp_y": wp_xyz[1],
+            "wp_z": wp_xyz[2],
+            "actual_x": actual_xyz[0],
+            "actual_y": actual_xyz[1],
+            "actual_z": actual_xyz[2],
+        }
+
+        if sol_pos is not None:
+            try:
+                for i, p in enumerate(sol_pos):
+                    p3 = vec3_or_nan(p)
+                    if np.isnan(p3[0]):
+                        continue
+                    row[f"plan_{i}_x"] = p3[0]
+                    row[f"plan_{i}_y"] = p3[1]
+                    row[f"plan_{i}_z"] = p3[2]
+            except Exception as exc:
+                print(f"[LOG] sol_pos parse failed: {exc}")
+                print(f"[LOG] sol_pos type={type(sol_pos)}")
+                try:
+                    print(f"[LOG] sol_pos shape={np.asarray(sol_pos, dtype=object).shape}")
+                except Exception:
+                    pass
+
+        self.path_log.append(row)
+
+        for obs in active_obs:
+            c = vec3_or_nan(obs.center)
+            s = vec3_or_nan(obs.size)
+            self.obstacle_log.append({
+                "t": float(t),
+                "step_idx": int(self.current_step_idx),
+                "step_name": step_name,
+                "wp_idx": int(self.current_wp_idx),
+                "object_id": str(obs.object_id),
+                "class_name": str(obs.class_name),
+                "center_x": c[0],
+                "center_y": c[1],
+                "center_z": c[2],
+                "size_x": s[0],
+                "size_y": s[1],
+                "size_z": s[2],
+                "score": float(obs.score),
+            })
+            
+    def save_logs(self, use_ros_logger=False):
+        import csv
+        import os
+
+        out_dir = "/home/dxr-labtop/pyroki/for_tips/logs"
+        os.makedirs(out_dir, exist_ok=True)
+
+        path_file = os.path.join(out_dir, "path_log.csv")
+        obs_file = os.path.join(out_dir, "obstacle_log.csv")
+
+        print(f"[SAVE] out_dir={out_dir}")
+        print(f"[SAVE] path rows={len(self.path_log)}")
+        print(f"[SAVE] obstacle rows={len(self.obstacle_log)}")
+
+        if len(self.path_log) > 0:
+            keys = sorted(set().union(*[d.keys() for d in self.path_log]))
+            with open(path_file, "w", newline="") as f:
+                writer = csv.DictWriter(f, fieldnames=keys)
+                writer.writeheader()
+                writer.writerows(self.path_log)
+            print(f"[SAVE] wrote {path_file}")
+
+        if len(self.obstacle_log) > 0:
+            keys = sorted(set().union(*[d.keys() for d in self.obstacle_log]))
+            with open(obs_file, "w", newline="") as f:
+                writer = csv.DictWriter(f, fieldnames=keys)
+                writer.writeheader()
+                writer.writerows(self.obstacle_log)
+            print(f"[SAVE] wrote {obs_file}")
+        
+    def make_nominal_line(self, start_xyz, goal_xyz, n=20):
+        start_xyz = np.asarray(start_xyz, dtype=float)
+        goal_xyz = np.asarray(goal_xyz, dtype=float)
+        alphas = np.linspace(0.0, 1.0, n)
+        return np.array([(1-a)*start_xyz + a*goal_xyz for a in alphas], dtype=float)
 
     def _connect_rtde(self):
         if not self.enable_rtde:
@@ -306,6 +415,15 @@ class PyrokiRtdeTaskPlanner(Node):
             return transform_point(self.T_parent_camera, center)
         self.get_logger().warning(f"Unknown bbox frame '{frame_id}', dropping object.")
         return None
+    
+    def transform_extent_to_planner(self, size: np.ndarray, frame_id: str) -> np.ndarray:
+        size = np.asarray(size, dtype=float)
+        if frame_id in ("", None, self.planner_frame, self.camera_parent_frame):
+            return size
+        if frame_id == self.camera_frame:
+            R = self.T_parent_camera[:3, :3]
+            return np.abs(R) @ size
+        raise RuntimeError(f"Unknown bbox frame '{frame_id}'")
 
     def scene_callback(self, msg: SceneContext):
         now_sec = self.get_clock().now().nanoseconds * 1e-9
@@ -328,13 +446,15 @@ class PyrokiRtdeTaskPlanner(Node):
             if center is None:
                 continue
 
-            size = np.maximum(
+            size_raw = np.maximum(
                 np.array(
                     [obj.bbox_3d.size.x, obj.bbox_3d.size.y, obj.bbox_3d.size.z],
                     dtype=float,
                 ),
                 1e-4,
             )
+            
+            size = self.transform_extent_to_planner(size_raw, raw_frame)
 
             objs.append(
                 DetectedObjectState(
@@ -795,6 +915,8 @@ class PyrokiRtdeTaskPlanner(Node):
 
             if ee_pos_now is not None:
                 self.advance_move_progress(ee_pos_now)
+                
+            self.log_cycle_data(wp, sol_pos, active_obs)
 
             self.last_elapsed_ms = (time.time() - start_time) * 1000.0
             if self.use_visualizer:
@@ -802,6 +924,7 @@ class PyrokiRtdeTaskPlanner(Node):
 
         except Exception as exc:
             self.get_logger().error(f"Unhandled control_loop error: {exc}")
+            print(traceback.format_exc())
 
     def update_visualizer(self, wp: Optional[PoseWaypoint], sol_pos, sol_wxyz, active_obstacles):
         step = self.current_step()
@@ -846,17 +969,34 @@ class PyrokiRtdeTaskPlanner(Node):
                 self.gripper.close_serial()
         except Exception:
             pass
+        
         return super().destroy_node()
 
 
 def main():
     rclpy.init()
     node = PyrokiRtdeTaskPlanner()
+
     try:
         rclpy.spin(node)
+    except KeyboardInterrupt:
+        pass
     finally:
-        node.destroy_node()
-        rclpy.shutdown()
+        try:
+            node.save_logs(use_ros_logger=False)
+        except Exception as exc:
+            print(f"Failed to save logs: {exc}")
+
+        try:
+            node.destroy_node()
+        except Exception:
+            pass
+
+        try:
+            if rclpy.ok():
+                rclpy.shutdown()
+        except Exception:
+            pass
 
 
 if __name__ == "__main__":
